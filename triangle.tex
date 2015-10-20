@@ -27,6 +27,10 @@ This paper's goal is to provide an extended background and related works for
 estimation in real-world graphs using a mathematical relationship between the
 number of eigenvalues of real-world graphs and their triangle count.
 
+\section{Motivation}
+Include some works about why triangle counting is important
+(clustering coefficient and transitivity ratio) here.
+
 \section{Graph Theory Background}
 A graph G is defined as a way of encoding pairwise relationships among a set of
 objects. It consists of a collection of nodes V and a collection of edges E, each
@@ -74,7 +78,12 @@ advantage of being space efficient and only requiring a single pass over the
 data \cite{baryossef}. 
 
 \subsection{Semi-streaming algorithms}
-Becchetti, Boldi, and Castillo \cite{becchetti}.
+Becchetti, Boldi, and Castillo present an algorithm to estimate the local
+number of triangles in a graph (for each node, compute the number of triangles
+that the node participates in). They chose to use a semi-streaming algorithm
+for this because a streaming algorithm would constrain the memory usage too
+much to be useful. The semi-streaming algorithm limits the passes over the data
+to be at most $O(\log N)$ \cite{becchetti}.
 
 \subsection{Algorithms that minimize disk I/O}
 Triangle listing algorithms suffer from huge datasets and the fact that
