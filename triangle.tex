@@ -17,30 +17,67 @@ Amanda Wulf\\
 
 \maketitle
 \begin{abstract}
-Abstract goes here. Explain that this is an extended related works for the original paper.
+This paper is an extended related works and background explanation for
+\cite{original}.
 \end{abstract}
 
 \section{Introduction}
-Intro goes here. Explain that this is an extended related works for the original paper.
+This paper's goal is to provide an extended background and related works for
+\cite{original}. \cite{original} is a paper detailing a method of triangle
+estimation in real-world graphs using a mathematical relationship between the
+number of eigenvalues of real-world graphs and their triangle count.
 
-\section{Related Triangle Works}
+\section{Graph Theory Background}
+A graph G is defined as a way of encoding pairwise relationships among a set of
+objects. It consists of a collection of nodes V and a collection of edges E, each
+of which joins two nodes. Each edge v is and ordered pair (u, v). An edge e is
+said to leave node u and enter node v. Nodes are also called vertices
+\cite{kleinberg}.
 
-\subsection{Brute Force}
-Check every permutation of three nodes to see if they are connected.
+Graphs can be either directed (meaning an edge can only be traversed in a
+certain direction) or undirected \cite{kleinberg}. In this paper, the graphs we
+consider are undirected.
+
+A self-edge (or loop) is a node that has an edge connecting it to itself
+\cite{diestel}.
+
+Two vertices are adjacent if they have an edge connecting them. A fully
+connected graph (also known as a complete graph) is a graph in which all
+vertices are pairwise adjacent \cite{diestel}.
+
+A triangle is defined to be a set of three fully connected nodes in an
+undirected graph without self-edges \cite{original}.
+
+\section{Triangle Counting and Listing Works}
 
 \subsection{Count all triangles}
-Shank and Wagner
+Schank and Wagner present an overview of triangle algorithms. They divide
+triangle algorithms into either counting or listing algorithms, where counting
+algorithms simply produce the number of triangles, while listing algorithms
+produce a list of every triangle present in the graph \cite{schank}.
+
+The brute force method they present, which traverses all nodes and counts every
+set of three connected nodes, is called \textit{node-iterator}.
 
 \subsection{Streaming and semi-streaming algorithms}
-Bar-Yossef, Kumar, and Sivakumar
+A streaming algorithm is an algorithm that handles data that arrives in a
+data stream. Bar-Yossef et. al. have developed a streaming algorithm to
+approximate the number of triangles in a large graph. This algorithm has the
+advantage of being space efficient and only requiring a single pass over the
+data \cite{baryossef}. 
 
 \subsection{Optional: Other papers we were handed out in class}
 Will fill this in last if I need more pages
 
-\section{Related Works for the Background of this Paper}
+\section{Background Works}
 
 \subsection{Eigenvalues}
-Lovasz
+For a matrix A, given the expression $Ax = \lambda x$, where $x$ is a vector and
+$\lambda$ is a real or complex number, $x$ is said to be the eigenvector of $A$
+and $\lambda$ is said to be its eigenvalue. \cite{lovasz}
+
+Here, add something about translating graph to matrix using graph theory book
+
 Lanczos
 Mihail and Papadimitriou
 Harary and Schwenk
@@ -51,7 +88,9 @@ in a graph is proportional to the sum of cubes of its adjacency matrix
 eigenvalues.
 
 \section{Conclusion}
-Conclusion goes here.
+This has been an explanation and related works for \cite{original}. This paper
+has explained the background and related works so that \cite{original} is
+easier to understand.
 
 %
 % The following two commands are all you need in the
