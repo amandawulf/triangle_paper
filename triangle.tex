@@ -41,12 +41,19 @@ consider are undirected.
 A self-edge (or loop) is a node that has an edge connecting it to itself
 \cite{diestel}.
 
-Two vertices are adjacent if they have an edge connecting them. A fully
+Two nodes are adjacent if they have an edge connecting them. A fully
 connected graph (also known as a complete graph) is a graph in which all
-vertices are pairwise adjacent \cite{diestel}.
+nodes are pairwise adjacent \cite{diestel}.
 
 A triangle is defined to be a set of three fully connected nodes in an
 undirected graph without self-edges \cite{original}.
+
+The degree of a node is defined to be the number of edges that connect to it
+\cite{diestel}.
+
+A closed walk of a graph is a finite, loop-free, non-empty alternating sequence
+of nodes and edges such that each edge is connected to each subsequent node,
+and the end node is the same as the start node \cite{diestel}.
 
 \section{Triangle Counting and Listing Works}
 
@@ -59,33 +66,76 @@ produce a list of every triangle present in the graph \cite{schank}.
 The brute force method they present, which traverses all nodes and counts every
 set of three connected nodes, is called \textit{node-iterator}.
 
-\subsection{Streaming and semi-streaming algorithms}
+\subsection{Streaming algorithms}
 A streaming algorithm is an algorithm that handles data that arrives in a
 data stream. Bar-Yossef et. al. have developed a streaming algorithm to
 approximate the number of triangles in a large graph. This algorithm has the
 advantage of being space efficient and only requiring a single pass over the
 data \cite{baryossef}. 
 
-\subsection{Optional: Other papers we were handed out in class}
-Will fill this in last if I need more pages
+\subsection{Semi-streaming algorithms}
+Becchetti, Boldi, and Castillo \cite{becchetti}.
+
+\subsection{Algorithms that minimize disk I/O}
+Triangle listing algorithms suffer from huge datasets and the fact that
+in-memory algorithms are unable to handle looking at each node without
+significant slowdowns from disk I/O. Chu and Cheng have solved this problem
+using an algorithm that is designed to work on neighboring vertices as a whole
+in order to minimize disk I/O accesses \cite{chu}.
+
+\subsection{Algorithms that use MapReduce and Hadoop}
+Exact triangle counting also has the issue of huge graphs many disk I/O
+accesses. Suri and Vassilvitskii have developed an algorithm to calculate the
+number of triangles using MapReduce on a computing cluster in order to mitigate
+this issue \cite{suri}.
 
 \section{Background Works}
+
+\subsection{Adjacency matrices}
+An adjacency matrix of a graph which has n nodes is a matrix $A = 
+(a_{ij})_{nxn}$ is defined by $a_{ij} = 1$ if $v_iv_j \in E$ and $0$ otherwise
+\cite{diestel}.  This gives us a way to do linear algebra operations on graphs.
 
 \subsection{Eigenvalues}
 For a matrix A, given the expression $Ax = \lambda x$, where $x$ is a vector and
 $\lambda$ is a real or complex number, $x$ is said to be the eigenvector of $A$
 and $\lambda$ is said to be its eigenvalue. \cite{lovasz}
 
-Here, add something about translating graph to matrix using graph theory book
+\subsection{Eigenvalue calculations}
+The Lanczos method is an iterative method of estimating the eigenvalues in a
+matrix. It provides a good, fast estimate for large graphs with sparse
+eigenvalues \cite{golub}.
 
-Lanczos
-Mihail and Papadimitriou
-Harary and Schwenk
+\subsection{Power laws}
+A power law is a J-shaped, highly skewed distribution function of some
+empirical data with a long tail \cite{simon}.
+
+A degree power law is a graph with a power law for graph degrees. In other
+words, it has a few nodes with a high degree and many nodes with a low degree
+\cite{mihail}.
+
+If a graph has a degree power law, it also has an eigenvalue power law
+\cite{mihail}. Degree power laws are common in real networks \cite{original},
+and thus by extension eigenvalue power laws are also common. The fact that
+these graphs have eigenvalue power laws makes the eigenvalues fast to calculate
+because there are only a few important eigenvalues, and many unimportant
+(small) eigenvalues, so the Lanczos method can be used to find the most
+important eigenvalues and thus find a close approximation quickly \cite{original}.
+
+\subsection{Number of closed walks in a graph}
+In \cite{harary}, Harary and Schwenk prove that the number of closed walks of
+length n in a graph is the sum of the nth powers of the graph's eigenvalues. By
+extension, the number of closed walks of length 3 is the sum of cubes of the
+graph's eigenvalues, and a closed walk of length 3 is a triangle.
 
 \section{Method}
 The main idea of \cite{original} is the fact that the total number of triangles
 in a graph is proportional to the sum of cubes of its adjacency matrix
 eigenvalues.
+
+The proposed algorithm to calculate the number of triangles involves
+iteratively using Lanczos method to calculate the eigenvalues, cubing and
+summing them as we calculate them.
 
 \section{Conclusion}
 This has been an explanation and related works for \cite{original}. This paper
