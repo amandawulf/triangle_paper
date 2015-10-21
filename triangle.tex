@@ -17,36 +17,18 @@ Amanda Wulf\\
 
 \maketitle
 \begin{abstract}
-This paper is an extended related works and background explanation for
-\cite{original}.
+This paper serves as an extended background explanation, motivation, and related
+works section for \cite{original}.
 \end{abstract}
 
 \section{Introduction}
 This paper's goal is to provide an extended background and related works for
 \cite{original}. \cite{original} is a paper detailing a method of triangle
 estimation in real-world graphs using a mathematical relationship between the
-number of eigenvalues of real-world graphs and their triangle count.
-
-\section{Motivation}
-According to Watts and Strogatz \cite{watts}, small-world graphs are the norm
-for real-world data.
-A small-world graph is defined as a tightly-clustered graph with small path
-lengths \cite{watts}. It is easy to see that a tightly-clustered graph with
-small path lengths will contain many triangles. The number of triagles are thus
-important for understanding the data in a graph because they give us an idea of
-the cliquishness of a graph.
-
-The standard metrics for the cliquishness of a graph are the clustering
-coefficient and the transitivity ratio, which have a high correlation to the
-number of triangles in a graph.  coefficient and transitivity ratio of a graph.
-The clustering coefficient of a
-node is the fraction of possible edges it could have to other nodes divided by
-the number of edges it actually has \cite{watts}. One of the ways of
-calculating the global clustering coefficient is actually by calculating the
-number of triangles, multiplying that number by three, and dividing by the
-number of connected triples of vertices \cite{newman}.
-
-and the transitivity ratio is the ...
+number of eigenvalues of real-world graphs and their triangle count. This paper
+introduces the basic ideas of graph theory, the motivations behind this work,
+the previous algorithms developed for triangle counting, and insights into why
+this particular triangle counting algorithm works.
 
 \section{Graph Theory Background}
 A graph G is defined as a way of encoding pairwise relationships among a set of
@@ -76,16 +58,46 @@ A closed walk of a graph is a finite, loop-free, non-empty alternating sequence
 of nodes and edges such that each edge is connected to each subsequent node,
 and the end node is the same as the start node \cite{diestel}.
 
-\section{Triangle Counting and Listing Works}
+\section{Motivation}
+According to Watts and Strogatz \cite{watts}, small-world graphs are the norm
+for real-world data.
+A small-world graph is defined as a tightly-clustered graph with small path
+lengths \cite{watts}. It is easy to see that a tightly-clustered graph with
+small path lengths will contain many triangles. The number of triagles are thus
+important for understanding the data in a graph because they give us an idea of
+the cliquishness of a graph.
 
-\subsection{Count all triangles}
+The standard metrics for the cliquishness of a graph are the clustering
+coefficient and the transitivity ratio, which have a high correlation to the
+number of triangles in a graph. The clustering coefficient of a
+node is the fraction of possible edges it could have to other nodes divided by
+the number of edges it actually has \cite{watts}. One of the ways of
+calculating the global clustering coefficient is actually by calculating the
+number of triangles, multiplying that number by three, and dividing by the
+number of connected triples of vertices \cite{newman}.
+The transitivity of a graph (which is the transitivity ratio restricted to
+undirected graphs) is another term for the global clustering
+coefficient \cite{schank:cluster}.
+
+\section{Triangle Counting and Listing Works}
+%TODO: Flesh out and expand all subsections here
+
+\subsection{Exact counting and listing algorithms}
 Schank and Wagner present an overview of triangle algorithms. They divide
 triangle algorithms into either counting or listing algorithms, where counting
 algorithms simply produce the number of triangles, while listing algorithms
-produce a list of every triangle present in the graph \cite{schank}.
+produce a list of every triangle present in the graph \cite{schank:counting}.
 
-The brute force method they present, which traverses all nodes and counts every
-set of three connected nodes, is called \textit{node-iterator}.
+They present several exact counting methods in their paper. The simplest
+traverses
+the adjacency matrix using the matrix multiplication solution to the shortest
+paths problem to get a count of the triangles, with a runtime of $O(n^3)$
+\cite{schank:counting}. A slightly better exact counting algorithm, which they
+call \textit{node-iterator}, traverses all nodes and counts every
+set of three connected nodes and obtains a runtime of $O(nd_max^2)$.
+
+The fastest currently known exact triangle counting algorithm is known as AYZ
+for the authors Alon, Yuster, and Zwick. \cite{ayz}
 
 \subsection{Streaming algorithms}
 A streaming algorithm is an algorithm that handles data that arrives in a
@@ -165,8 +177,8 @@ summing them as we calculate them.
 
 \section{Conclusion}
 This has been an explanation and related works for \cite{original}. This paper
-has explained the background and related works so that \cite{original} is
-easier to understand.
+has explained the basic concepts, motivation, background and related works so
+that \cite{original} is easier to understand.
 
 %
 % The following two commands are all you need in the
