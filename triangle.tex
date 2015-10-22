@@ -33,7 +33,7 @@ this particular triangle counting algorithm works.
 \section{Graph Theory Background}
 A graph G is defined as a way of encoding pairwise relationships among a set of
 objects. It consists of a collection of nodes V and a collection of edges E, each
-of which joins two nodes. Each edge v is and ordered pair (u, v). An edge e is
+of which joins two nodes. Each edge v is an ordered pair (u, v). An edge e is
 said to leave node u and enter node v. Nodes are also called vertices
 \cite{kleinberg}.
 
@@ -93,11 +93,11 @@ the adjacency matrix using the matrix multiplication solution to the shortest
 paths problem to get a count of the triangles, with a runtime of $O(n^3)$
 \cite{schank:counting}. A slightly better exact counting algorithm, which they
 call \textit{node-iterator}, traverses all nodes and counts every
-set of three connected nodes and obtains a runtime of $O(nd_max^2)$.
+set of three connected nodes and obtains a runtime of $O(nd_{max}^2)$.
 
 The fastest currently-known exact triangle counting algorithm is known as AYZ
 for the authors Alon, Yuster, and Zwick, which uses fast matrix multiplication
-to traverse the nodes and count all triangles, has a runtime of $O(m^{3/2})$
+to traverse the nodes and count all triangles and has a runtime of $O(m^{3/2})$
 \cite{ayz}. Thus, the fastest exact triangle counting takes exponential time,
 which is why \cite{original} presents a fast estimation algorithm.
 
@@ -134,10 +134,13 @@ size of the graphs being mined, and the algorithm presented in \cite{original}
 is able to be run on a MapReduce system as well.
 
 \section{Background Works}
+This section will introduce the topics needed to understand the theorems and
+algorithms \cite{original} presents.
 
 \subsection{Adjacency matrices}
 An adjacency matrix of a graph which has n nodes is a matrix $A = 
-(a_{ij})_{nxn}$ is defined by $a_{ij} = 1$ if $v_iv_j \in E$ and $0$ otherwise
+(a_{ij})_{nxn}$ which is defined by $a_{ij} = 1$ if $v_iv_j \in E$ and $0$
+otherwise
 \cite{diestel}.  This gives us a way to do linear algebra operations on graphs.
 
 \subsection{Eigenvalues}
@@ -145,7 +148,7 @@ For a matrix A, given the expression $Ax = \lambda x$, where $x$ is a vector and
 $\lambda$ is a real or complex number, $x$ is said to be the eigenvector of $A$
 and $\lambda$ is said to be its eigenvalue. \cite{lovasz}
 
-\subsection{Eigenvalue calculations}
+\subsection{Estimating eigenvalues}
 The Lanczos method is an iterative method of estimating the eigenvalues in a
 matrix. It provides a good, fast estimate for large graphs with sparse
 eigenvalues \cite{golub}.
@@ -160,7 +163,7 @@ words, it has a few nodes with a high degree and many nodes with a low degree
 
 If a graph has a degree power law, it also has an eigenvalue power law
 \cite{mihail}. Degree power laws are common in real networks \cite{original},
-and thus by extension eigenvalue power laws are also common. The fact that
+and so by extension eigenvalue power laws are also common. The fact that
 these graphs have eigenvalue power laws makes the eigenvalues fast to calculate
 because there are only a few important eigenvalues, and many unimportant
 (small) eigenvalues, so the Lanczos method can be used to find the most
@@ -175,14 +178,32 @@ graph's eigenvalues, and a closed walk of length 3 is a triangle.
 \section{Method}
 The main idea of \cite{original} is the fact that the total number of triangles
 in a graph is proportional to the sum of cubes of its adjacency matrix
-eigenvalues.
+eigenvalues. The formula developed by \cite{original} is the following:
+$$\Delta(G) = \frac{1}{6} \sum_{i=1}^n \lambda_i^3$$
 
-The proposed algorithm to calculate the number of triangles involves
+The proposed algorithm EigenTriangle which calculates the number of triangles
+involves
 iteratively using the Lanczos method to calculate the eigenvalues, cubing and
 summing them as we calculate them.
 
+In addition, \cite{original} presents another formula and algorithm which are
+extensions of EigenTriangle that count the number of triangles $\Delta_i$ that
+node i participates in, calling these EigenTriangleLocal. The formula for this
+is the following: $$\Delta_i = \frac{\sum_j \lambda_j^3 u_{i,j}^2}{2}$$
+Similarly, the
+algorithm for this works by using the Lanczos method to compute the cubes of the
+eigenvalues of the adjacency matrix.
+
 This method provides a mean speedup of 250x compared to the aforementioned
 \textit{node-iterator} algorithm presented by \cite{schank:counting}.
+
+In addition to the algorithms developed, \cite{original} also uncovers a
+power law between a graph's average degree and the number of triangles present
+in the graph. \cite{original} calls this the DEGREE-TRIANGLE power law. 
+
+\cite{original} also notes that the idea of using eigenvalues to calculate
+the number of triangles in a
+graph also works for Kronecker graphs and Erdos-Renyi graphs.
 
 \section{Conclusion}
 This has been an explanation and related works for \cite{original}. This paper
