@@ -80,7 +80,6 @@ undirected graphs) is another term for the global clustering
 coefficient \cite{schank:cluster}.
 
 \section{Triangle Counting and Listing Works}
-%TODO: Flesh out and expand all subsections here
 
 \subsection{Exact counting and listing algorithms}
 Schank and Wagner present an overview of triangle algorithms. They divide
@@ -96,8 +95,11 @@ paths problem to get a count of the triangles, with a runtime of $O(n^3)$
 call \textit{node-iterator}, traverses all nodes and counts every
 set of three connected nodes and obtains a runtime of $O(nd_max^2)$.
 
-The fastest currently known exact triangle counting algorithm is known as AYZ
-for the authors Alon, Yuster, and Zwick. \cite{ayz}
+The fastest currently-known exact triangle counting algorithm is known as AYZ
+for the authors Alon, Yuster, and Zwick, which uses fast matrix multiplication
+to traverse the nodes and count all triangles, has a runtime of $O(m^{3/2})$
+\cite{ayz}. Thus, the fastest exact triangle counting takes exponential time,
+which is why \cite{original} presents a fast estimation algorithm.
 
 \subsection{Streaming algorithms}
 A streaming algorithm is an algorithm that handles data that arrives in a
@@ -126,6 +128,10 @@ Exact triangle counting also has the issue of huge graphs and many disk I/O
 accesses. Suri and Vassilvitskii have developed an algorithm to calculate the
 number of triangles using MapReduce on a computing cluster in order to mitigate
 this issue \cite{suri}.
+
+The ability to massively parallelize triangle counting is important due to the
+size of the graphs being mined, and the algorithm presented in \cite{original} 
+is able to be run on a MapReduce system as well.
 
 \section{Background Works}
 
@@ -172,8 +178,11 @@ in a graph is proportional to the sum of cubes of its adjacency matrix
 eigenvalues.
 
 The proposed algorithm to calculate the number of triangles involves
-iteratively using Lanczos method to calculate the eigenvalues, cubing and
+iteratively using the Lanczos method to calculate the eigenvalues, cubing and
 summing them as we calculate them.
+
+This method provides a mean speedup of 250x compared to the aforementioned
+\textit{node-iterator} algorithm presented by \cite{schank:counting}.
 
 \section{Conclusion}
 This has been an explanation and related works for \cite{original}. This paper
